@@ -8,8 +8,10 @@ Gem::Specification.new do |spec|
   spec.version       = Hstatic::VERSION
   spec.authors       = ["Erick Pérez Castellanos"]
   spec.email         = ["erick.red@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Hstatic is a simple HTTP server for your static files.
+It's designed for launching it from anywhere in your filesystem tree.
+It features a nice directory listing and automatic publishing of your index.html files}
+  spec.summary       = %q{An HTTP server for you static files}
   spec.homepage      = ""
   spec.license       = "MIT"
 

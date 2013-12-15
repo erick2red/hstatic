@@ -1,6 +1,10 @@
 # Hstatic
 
-TODO: Write a gem description
+An HTTP server for you static files
+
+Hstatic is a simple HTTP server for your static files.
+It's designed for launching it from anywhere in your filesystem tree.
+It features a nice directory listing and automatic publishing of your index.html files
 
 ## Installation
 
