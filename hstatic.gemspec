@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
 It's designed for launching it from anywhere in your filesystem tree.
 It features a nice directory listing and automatic publishing of your index.html files}
   spec.summary       = %q{An HTTP server for you static files}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/erick2red/hstatic"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
