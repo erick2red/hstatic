@@ -45,6 +45,8 @@ module Hstatic
       path = File.expand_path(Dir.pwd + unescape(request.path_info))
       if File.file? path
         send_file path
+      elsif File.exists? File.expand_path(path + '/index.html')
+        redirect request.path_info + '/index.html'
       elsif File.directory? path
         @folders = Array.new
         @files = Array.new
