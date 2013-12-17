@@ -52,22 +52,21 @@
         /* filtering */
         $('input').on('input', function () {
           value = $(this).val();
-          $('a.list-group-item').show();
-          $('tr:has(a)').show();
+          $('a.list-group-item, tr:has(a)').show();
           if (value == "") {
             return false;
           }
           re.compile(value, "i");
-          arr1 = $.grep($('a.list-group-item'), function(e, i){
-            return ! re.test(e.innerHTML);
+          $.each($('a.list-group-item'), function(i, e){
+            if (! re.test(e.innerHTML)) {
+              $(e).hide();
+            }
           });
-          arr2 = $.grep($('tr:has(a)'), function(e, i){
-            return ! re.test($('a', e).html());
+          $.each($('tr:has(a)'), function(i, e){
+            if (! re.test($('a', e).html())) {
+              $(e).hide();
+            }
           });
-          arr = arr1.concat(arr2);
-          for (i in arr) {
-            $(arr[i]).hide();
-          }
         });
         $('input').on('keyup', function (event) {
           if (event.which == 27) {
