@@ -21,6 +21,13 @@ module Hstatic
       end
     end
 
+    # For now just render HAML
+    helpers do
+      def dynamic_view(path)
+        haml(File.basename(path, File.extname(path)).to_sym, {:views => File.dirname(path)})
+      end
+    end
+
     # Going around bootstrap
     get '/.res/bootstrap.min.css' do
       send_file(File.join BASEDIR, 'res/bootstrap.min.css')
@@ -44,7 +51,11 @@ module Hstatic
     get '*' do
       path = File.expand_path(File.join Dir.pwd, unescape(request.path_info))
       if File.file? path
-        send_file path
+        if File.extname(path) == ".haml"
+          dynamic_view path
+        else
+          send_file path
+        end
       elsif File.exists? File.expand_path(File.join path, 'index.html')
         redirect(File.join request.path_info, 'index.html')
       elsif File.directory? path
