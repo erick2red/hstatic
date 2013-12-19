@@ -7,6 +7,7 @@ module Hstatic
   class App < Sinatra::Base
     configure do
       set :views, File.join(BASEDIR, 'views')
+      set :environment, :production
     end
 
     helpers do
