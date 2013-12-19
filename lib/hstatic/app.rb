@@ -2,7 +2,7 @@ require 'sinatra/base'
 require 'haml'
 
 module Hstatic
-  BASEDIR = File.join File.dirname(__FILE__), '..', '..'
+  BASEDIR = File.join(File.dirname(__FILE__), '..', '..')
 
   class App < Sinatra::Base
     configure do
@@ -23,56 +23,72 @@ module Hstatic
 
     # For now just render HAML
     helpers do
-      def dynamic_view(path)
-        haml(File.basename(path, File.extname(path)).to_sym, {:views => File.dirname(path)})
+      def render_file(path)
+        case File.extname(path)
+        when ".haml"
+          basename = File.basename(path, File.extname(path)).to_sym
+          haml(basename, { :views => File.dirname(path) })
+        else
+          send_file path
+        end
       end
     end
 
     # Going around bootstrap
     get '/.res/bootstrap.min.css' do
-      send_file(File.join BASEDIR, 'res/bootstrap.min.css')
+      send_file(File.join(BASEDIR, 'res/bootstrap.min.css'))
     end
+
     get '/.res/style.css' do
-      send_file(File.join BASEDIR, 'res/style.css')
+      send_file(File.join(BASEDIR, 'res/style.css'))
     end
+
     get '/.res/jquery.min.js' do
-      send_file(File.join BASEDIR, 'res/jquery.min.js')
+      send_file(File.join(BASEDIR, 'res/jquery.min.js'))
     end
+
     get '/fonts/glyphicons-halflings-regular.woff' do
-      send_file(File.join BASEDIR, 'res/glyphicons-halflings-regular.woff')
+      send_file(File.join(BASEDIR, 'res/glyphicons-halflings-regular.woff'))
     end
+
     get '/fonts/glyphicons-halflings-regular.ttf' do
-      send_file(File.join BASEDIR, 'res/glyphicons-halflings-regular.ttf')
+      send_file(File.join(BASEDIR, 'res/glyphicons-halflings-regular.ttf'))
     end
+
     get '/fonts/glyphicons-halflings-regular.svg' do
-      send_file(File.join BASEDIR, 'res/glyphicons-halflings-regular.svg')
+      send_file(File.join(BASEDIR, 'res/glyphicons-halflings-regular.svg'))
     end
 
     get '*' do
-      path = File.expand_path(File.join Dir.pwd, unescape(request.path_info))
+      path = File.expand_path(File.join(Dir.pwd, unescape(request.path_info)))
+
       if File.file? path
-        if File.extname(path) == ".haml"
-          dynamic_view path
-        else
-          send_file path
-        end
-      elsif File.exists? File.expand_path(File.join path, 'index.html')
-        redirect(File.join request.path_info, 'index.html')
+        render_file path
+      elsif File.exists?(File.expand_path(File.join(path, 'index.html')))
+        redirect(File.join(request.path_info, 'index.html'))
       elsif File.directory? path
+        # Bulding data
         @folders = Array.new
         @files = Array.new
-        @parent = File.dirname request.path_info
+        @parent = File.dirname(request.path_info)
+
         Dir.foreach(path) do |entry|
-          next if entry == '.' or entry == '..'
-          url_base = File.join "/", request.path_info
-          if File.directory? File.expand_path(File.join path, entry)
-            @folders << {name: entry, href: File.join(url_base, entry)}
+          next if entry == "." || entry == ".."
+
+          url_base = File.join("/", request.path_info)
+          link = File.join(url_base, entry)
+          filename = File.expand_path(File.join(path, entry))
+
+          if File.directory? filename
+            @folders << { name: entry, href: link }
           else
-            @files << {name: unescape(entry),
-                       size: dynamic_size(File.size(File.expand_path(File.join path, entry))),
-                       href: File.join(url_base, entry)}
+            @files << { name: unescape(entry),
+                        size: dynamic_size(File.size(filename)),
+                        href: link }
           end
         end
+
+        # Render view
         haml :index
       else
         'not found'
