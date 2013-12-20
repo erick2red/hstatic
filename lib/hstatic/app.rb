@@ -22,7 +22,7 @@ module Hstatic
       end
     end
 
-    # For now just render HAML
+    # For now just render [:haml, :erb]
     helpers do
       def render_file(path)
         case File.extname(path)
@@ -63,6 +63,7 @@ module Hstatic
       send_file(File.join(BASEDIR, 'res/glyphicons-halflings-regular.svg'))
     end
 
+    # Catch all route
     get '*' do
       path = File.expand_path(File.join(Dir.pwd, unescape(request.path_info)))
 
@@ -71,7 +72,7 @@ module Hstatic
       elsif File.exists?(File.expand_path(File.join(path, 'index.html')))
         redirect(File.join(request.path_info, 'index.html'))
       elsif File.directory? path
-        # Bulding data
+        # Building data
         @folders = Array.new
         @files = Array.new
         @parent = File.dirname(request.path_info)
