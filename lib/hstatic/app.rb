@@ -12,12 +12,13 @@ module Hstatic
 
     helpers do
       def dynamic_size(size)
-        if size > Math.ldexp(1, 40)
-          sprintf("%5.2f", size / Math.ldexp(1, 40)) + ' GB'
-        elsif (size / Math.ldexp(1, 20)) > 0.1
-          sprintf("%5.2f", size / Math.ldexp(1, 20)).to_s + ' MB'
+        case
+        when size > Math.ldexp(1, 40)
+          sprintf("%5.2f", size / Math.ldexp(1, 40)) << ' GB'
+        when (size / Math.ldexp(1, 20)) > 0.1
+          sprintf("%5.2f", size / Math.ldexp(1, 20)).to_s << ' MB'
         else
-          sprintf("%5.2f", size / Math.ldexp(1, 10)).to_s + ' kB'
+          sprintf("%5.2f", size / Math.ldexp(1, 10)).to_s << ' kB'
         end
       end
     end
@@ -26,12 +27,11 @@ module Hstatic
     helpers do
       def render_file(path)
         case File.extname(path)
-        when ".haml"
+        when /haml$|erb$/
+          method = self.method(Regexp.last_match(0))
           basename = File.basename(path, File.extname(path)).to_sym
-          haml(basename, { :views => File.dirname(path) })
-        when ".erb"
-          basename = File.basename(path, File.extname(path)).to_sym
-          erb(basename, { :views => File.dirname(path) })
+
+          method.call(basename, { :views => File.dirname(path) })
         else
           send_file path
         end
