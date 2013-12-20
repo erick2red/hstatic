@@ -29,6 +29,9 @@ module Hstatic
         when ".haml"
           basename = File.basename(path, File.extname(path)).to_sym
           haml(basename, { :views => File.dirname(path) })
+        when ".erb"
+          basename = File.basename(path, File.extname(path)).to_sym
+          erb(basename, { :views => File.dirname(path) })
         else
           send_file path
         end
