@@ -1,0 +1,6 @@
+## The TO-DO list
+
+* Add minify capability on production environment
+* Add config file
+* Add virtual hosting
+* Add php proxying, and rails as well
