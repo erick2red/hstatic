@@ -1,5 +1,5 @@
 require 'sinatra/base'
-require 'haml'
+require "haml"
 
 module Hstatic
   BASEDIR = File.join(File.dirname(__FILE__), '..', '..')
@@ -23,16 +23,16 @@ module Hstatic
       end
     end
 
-    # For now just render [:haml, :erb]
+    # Finally every Tilt supported template is rendered
     helpers do
       def render_file(path)
-        case File.extname(path)
-        when /haml$|erb$/
-          method = self.method(Regexp.last_match(0))
+        begin
+          ext =  Tilt.mappings.each_pair { |k, v| break k if v.include? Tilt[path] }
+          method = self.method(ext)
           basename = File.basename(path, File.extname(path)).to_sym
 
           method.call(basename, { :views => File.dirname(path) })
-        else
+        rescue
           send_file path
         end
       end
