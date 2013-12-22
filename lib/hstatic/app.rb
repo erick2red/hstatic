@@ -96,7 +96,7 @@ module Hstatic
         # Render view
         haml :index
       else
-        'not found'
+        [404, "File not found"]
       end
     end
   end
