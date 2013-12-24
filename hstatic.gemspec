@@ -25,4 +25,5 @@ It features a nice directory listing and automatic publishing of your index.html
 
   spec.add_runtime_dependency "sinatra"
   spec.add_runtime_dependency "haml"
+  spec.add_runtime_dependency "slim"
 end

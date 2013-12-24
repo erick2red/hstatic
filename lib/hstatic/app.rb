@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require "haml"
+require "slim"
 
 module Hstatic
   BASEDIR = File.join(File.dirname(__FILE__), '..', '..')
