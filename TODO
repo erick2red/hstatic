@@ -1,5 +1,7 @@
 ## The TO-DO list
 
+* Add proper testing
+* Add proper -v option to cli tool
 * Add minify capability on production environment
 * Add config file
 * Add virtual hosting
