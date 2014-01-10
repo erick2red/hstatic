@@ -14,12 +14,12 @@ module Hstatic
     helpers do
       def dynamic_size(size)
         case
-        when size > Math.ldexp(1, 40)
-          sprintf("%5.2f", size / Math.ldexp(1, 40)) << ' GB'
-        when (size / Math.ldexp(1, 20)) > 0.1
-          sprintf("%5.2f", size / Math.ldexp(1, 20)).to_s << ' MB'
+        when size > 2**40
+          sprintf("%5.2f", size / 2**40) << ' GB'
+        when (size / 2**20) > 0.1
+          sprintf("%5.2f", size / 2**20).to_s << ' MB'
         else
-          sprintf("%5.2f", size / Math.ldexp(1, 10)).to_s << ' kB'
+          sprintf("%5.2f", size / 2**10).to_s << ' kB'
         end
       end
     end
