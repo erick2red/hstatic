@@ -9,6 +9,7 @@ module Hstatic
     configure do
       set :views, File.join(BASEDIR, 'views')
       set :environment, :development
+      enable :logging
     end
 
     helpers do
