@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
-require 'hstatic'
+require_relative '../lib/hstatic'
 
 Hstatic::App.launch ARGV
