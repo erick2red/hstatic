@@ -53,8 +53,8 @@ module Hstatic
       send_file(File.join(BASEDIR, 'res/style.css'))
     end
 
-    get '/.res/jquery.min.js' do
-      send_file(File.join(BASEDIR, 'res/jquery.min.js'))
+    get '/.res/jquery-1.10.2.min.js' do
+      send_file(File.join(BASEDIR, 'res/jquery-1.10.2.min.js'))
     end
 
     get '/fonts/glyphicons-halflings-regular.woff' do
