@@ -29,14 +29,14 @@ module Hstatic
     helpers do
       def render_file(path)
         begin
-          if template  = Tilt[path]
+          if template = Tilt[path]
             ext, _ =  Tilt.mappings.find { |k, v| v.include? template }
             method = self.method(ext)
             basename = File.basename(path, File.extname(path)).to_sym
 
             method.call(basename, { :views => File.dirname(path) })
           else
-            raise Exception.new "No matching template"
+            raise Exception.new "No matching template for #{path}"
           end
         rescue
           send_file path
