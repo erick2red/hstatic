@@ -18,9 +18,9 @@ module Hstatic
         when size > 2**40
           sprintf("%5.2f", size / 2**40) << ' GB'
         when (size / 2**20) > 0.1
-          sprintf("%5.2f", size / 2**20).to_s << ' MB'
+          sprintf("%5.2f", size / 2**20) << ' MB'
         else
-          sprintf("%5.2f", size / 2**10).to_s << ' kB'
+          sprintf("%5.2f", size / 2**10) << ' kB'
         end
       end
     end
