@@ -1,7 +1,6 @@
 ## The TO-DO list
 
 * Add proper testing
-* Add proper -v option to cli tool
 * Add config file
 * Add virtual hosting
 * Add php proxying, and rails as well
