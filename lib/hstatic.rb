@@ -1,6 +1,8 @@
 require "hstatic/version"
 require "hstatic/app"
 
+require 'yaml/store'
+
 module Hstatic
   class App
     def self.launch(argv)
@@ -9,6 +11,7 @@ module Hstatic
         OptionParser.new { |op|
           op.on("-p port",   "--port port",
                 "set the port (default is 4567)") do |val|
+            @port_set = true
             set :port, Integer(val)
           end
 
@@ -23,6 +26,16 @@ module Hstatic
             exit
           end
         }.parse!(ARGV.dup)
+      end
+
+      launches_file = File.join ENV['HOME'], ".cache/hstatic_launches"
+      @launches = Psych::Store.new launches_file, true
+      @launches.transaction do
+        unless @port_set
+          set :port, @launches[Dir.pwd] || 4567
+        end
+
+        @launches[Dir.pwd] = settings.port
       end
 
       # Processing path and port
