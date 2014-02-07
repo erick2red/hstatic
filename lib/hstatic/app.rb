@@ -36,9 +36,10 @@ module Hstatic
 
             method.call(basename, { :views => File.dirname(path) })
           else
-            raise Exception.new "Template engine not found for #{path}"
+            raise Exception.new "No template found for #{path}"
           end
         rescue Exception => e
+          logger.info e.message
           send_file path
         end
       end
