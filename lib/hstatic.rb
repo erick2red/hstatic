@@ -9,6 +9,9 @@ module Hstatic
       if argv.any?
         require 'optparse'
         OptionParser.new { |op|
+          op.on("-o host",
+                "specify host (default is localhost)") { |val| set :bind, val }
+
           op.on("-p port",   "--port port",
                 "set the port (default is 4567)") do |val|
             @port_set = true
