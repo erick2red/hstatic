@@ -1,5 +1,5 @@
-require "hstatic/version"
-require "hstatic/app"
+require 'hstatic/version'
+require 'hstatic/app'
 
 require 'yaml/store'
 
@@ -8,30 +8,30 @@ module Hstatic
     def self.launch(argv)
       if argv.any?
         require 'optparse'
-        OptionParser.new { |op|
-          op.on("-o host",
-                "specify host (default is localhost)") { |val| set :bind, val }
+        OptionParser.new do |op|
+          op.on('-o host',
+                'specify host (default is localhost)') { |val| set :bind, val }
 
-          op.on("-p port",   "--port port",
-                "set the port (default is 4567)") do |val|
+          op.on('-p port',   '--port port',
+                'set the port (default is 4567)') do |val|
             @port_set = true
             set :port, Integer(val)
           end
 
-          op.on("-s server",
-                "specify rack server/handler (default is thin)") { |val| set :server, val }
+          op.on('-s server',
+                'specify server (default is thin)') { |val| set :server, val }
 
-          op.on("-x",
-                "turn on the mutex lock (default is off)")       {       set :lock, true }
+          op.on('-x',
+                'turn on the mutex lock (default is off)') { set :lock, true }
 
-          op.on("-v",        "--version",   "show version") do
+          op.on('-v', '--version', 'show version') do
             puts "hstatic tool: v#{VERSION}"
             exit
           end
-        }.parse!(ARGV.dup)
+        end.parse!(ARGV.dup)
       end
 
-      launches_file = File.join ENV['HOME'], ".cache/hstatic_launches"
+      launches_file = File.join ENV['HOME'], '.cache/hstatic_launches'
       @launches = Psych::Store.new launches_file, true
       @launches.transaction do
         unless @port_set
@@ -42,12 +42,12 @@ module Hstatic
       end
 
       # Processing path and port
-      pid_file = File.join(Dir.tmpdir, "hstatic.pid")
+      pid_file = File.join(Dir.tmpdir, 'hstatic.pid')
       File.open(pid_file, File::CREAT|File::APPEND|File::RDWR) do |f|
         f.readlines.each do |line|
-          instances = line.strip.split(":")
+          instances = line.strip.split(':')
           if instances[1] == settings.port.to_s
-            puts "hstatic instance running already on the same port. Bailing out"
+            puts 'hstatic instance running already on the same port. Bailing out'
             exit
           end
         end
@@ -60,7 +60,7 @@ module Hstatic
       if File.exists? pid_file
         instances = File.open(pid_file, File::RDONLY) do |f|
           f.readlines.map do |line|
-            pair = line.strip.split(":")
+            pair = line.strip.split(':')
             pair unless pair[0] == Dir.pwd && pair[1] == settings.port.to_s
           end.compact
         end

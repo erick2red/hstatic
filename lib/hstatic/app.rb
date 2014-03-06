@@ -1,6 +1,6 @@
 require 'sinatra/base'
-require "haml"
-require "slim"
+require 'haml'
+require 'slim'
 
 module Hstatic
   BASEDIR = File.join(File.dirname(__FILE__), '..', '..')
@@ -16,11 +16,11 @@ module Hstatic
       def dynamic_size(size)
         case
         when size > 2**40
-          sprintf("%5.2f", size / 2**40) << ' GB'
+          sprintf('%5.2f', size / 2**40) << ' GB'
         when (size / 2**20) > 0.1
-          sprintf("%5.2f", size / 2**20) << ' MB'
+          sprintf('%5.2f', size / 2**20) << ' MB'
         else
-          sprintf("%5.2f", size / 2**10) << ' kB'
+          sprintf('%5.2f', size / 2**10) << ' kB'
         end
       end
     end
@@ -85,9 +85,9 @@ module Hstatic
         @parent = File.dirname(request.path_info)
 
         Dir.foreach(path) do |entry|
-          next if entry == "." || entry == ".."
+          next if entry == '.' || entry == '..'
 
-          url_base = File.join("/", request.path_info)
+          url_base = File.join('/', request.path_info)
           link = File.join(url_base, entry)
           filename = File.expand_path(File.join(path, entry))
 
@@ -103,7 +103,7 @@ module Hstatic
         # Render view
         haml :index
       else
-        [404, "File not found"]
+        [404, 'File not found']
       end
     end
   end
