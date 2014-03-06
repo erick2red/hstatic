@@ -43,11 +43,11 @@ module Hstatic
 
       # Processing path and port
       pid_file = File.join(Dir.tmpdir, 'hstatic.pid')
-      File.open(pid_file, File::CREAT|File::APPEND|File::RDWR) do |f|
+      File.open(pid_file, File::CREAT | File::APPEND | File::RDWR) do |f|
         f.readlines.each do |line|
           instances = line.strip.split(':')
           if instances[1] == settings.port.to_s
-            puts 'hstatic instance running already on the same port. Bailing out'
+            puts 'hstatic instance running already on the same port. Exiting'
             exit
           end
         end
@@ -65,7 +65,7 @@ module Hstatic
           end.compact
         end
 
-        File.open(pid_file, File::WRONLY|File::TRUNC) do |f|
+        File.open(pid_file, File::WRONLY | File::TRUNC) do |f|
           instances.each do |pair|
             f.write "#{pair[0]}:#{pair[1]}\n"
           end
@@ -73,7 +73,6 @@ module Hstatic
 
         File.unlink pid_file unless instances.length > 0
       end
-
     end
   end
 end

@@ -34,7 +34,7 @@ module Hstatic
             method = self.method(ext)
             basename = File.basename(path, File.extname(path)).to_sym
 
-            method.call(basename, { :views => File.dirname(path) })
+            method.call basename, :views => File.dirname(path)
           else
             raise Exception.new "No template found for #{path}"
           end
