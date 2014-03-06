@@ -2,9 +2,14 @@ require 'sinatra/base'
 require 'haml'
 require 'slim'
 
+# Main gem namespace
 module Hstatic
   BASEDIR = File.join(File.dirname(__FILE__), '..', '..')
 
+  # Main Sinatra Application
+  #
+  # It handles the publishing index pages and instantiation of
+  # templates files
   class App < Sinatra::Base
     configure do
       set :views, File.join(BASEDIR, 'views')

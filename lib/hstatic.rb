@@ -3,7 +3,12 @@ require 'hstatic/app'
 
 require 'yaml/store'
 
+# Main gem namespace
 module Hstatic
+  #
+  # Main Sinatra Application
+  #
+  # Added launch class method for handling settings and execution details
   class App
     def self.launch(argv)
       if argv.any?
