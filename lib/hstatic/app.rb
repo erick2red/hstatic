@@ -28,20 +28,18 @@ module Hstatic
     # Finally every Tilt supported template is rendered
     helpers do
       def render_file(path)
-        begin
-          if template = Tilt[path]
-            ext, _ =  Tilt.mappings.find { |k, v| v.include? template }
-            method = self.method(ext)
-            basename = File.basename(path, File.extname(path)).to_sym
+        if template = Tilt[path]
+          ext, _ =  Tilt.mappings.find { |k, v| v.include? template }
+          method = self.method(ext)
+          basename = File.basename(path, File.extname(path)).to_sym
 
-            method.call basename, :views => File.dirname(path)
-          else
-            raise Exception.new "No template found for #{path}"
-          end
-        rescue Exception => e
-          logger.info e.message
-          send_file path
+          method.call basename, :views => File.dirname(path)
+        else
+          fail Exception, "No template found for #{path}"
         end
+      rescue Exception => e
+        logger.info e.message
+        send_file path
       end
     end
 
