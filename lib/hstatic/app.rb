@@ -33,7 +33,7 @@ module Hstatic
     # Finally every Tilt supported template is rendered
     helpers do
       def render_file(path)
-        if template = Tilt[path]
+        if (template = Tilt[path])
           ext, _ =  Tilt.mappings.find { |k, v| v.include? template }
 
           if self.respond_to? ext.to_sym
@@ -95,11 +95,11 @@ module Hstatic
           filename = File.expand_path(File.join(path, entry))
 
           if File.directory? filename
-            @folders << { name: entry, href: link }
+            @folders << { :name => entry, :href => link }
           else
-            @files << { name: unescape(entry),
-                        size: dynamic_size(File.size(filename)),
-                        href: link }
+            @files << { :name => unescape(entry),
+                        :size => dynamic_size(File.size(filename)),
+                        :href => link }
           end
         end
 
