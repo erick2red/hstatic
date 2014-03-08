@@ -1,0 +1,4 @@
+inherit_from: /home/erickpc/.rubocop.yml
+
+StringLiterals:
+  EnforcedStyle: single_quotes
