@@ -39,9 +39,9 @@ module Hstatic
 
           if self.respond_to? ext.to_sym
             method = self.method(ext)
-            basename = File.basename(path, File.extname(path)).to_sym
+            basename = path.basename(path.extname).to_s.to_sym
 
-            return method.call basename, :views => File.dirname(path)
+            return method.call basename, :views => path.dirname
           end
         end
 
@@ -72,30 +72,30 @@ module Hstatic
 
     # Catch all route
     get '*' do
-      path = File.expand_path(File.join(Dir.pwd, unescape(request.path_info)))
+      # resource absolute path
+      path = Pathname.new(Dir.pwd).join(unescape(request.path_info).gsub(/^\//, ''))
+      path_info = Pathname.new request.path_info
 
-      if File.file? path
+      if path.file?
         render_file path
-      elsif File.exists?(File.expand_path(File.join(path, 'index.html')))
-        redirect(File.join(request.path_info, 'index.html'))
-      elsif File.directory? path
-        # Building data
+      elsif path.directory?
+        %w(index.htm index.html).each do |file|
+          redirect(path_info + file) if (path + file).file?
+        end
+        # FIXME: ^^ using halt call inside redirect for control flow
+        # Building data for directory listing
         @folders = Array.new
         @files = Array.new
-        @parent = File.dirname(request.path_info)
+        @parent = path_info.dirname
 
-        Dir.foreach(path) do |entry|
-          next if entry == '.' || entry == '..'
+        path.each_child do |entry|
+          link = path_info + entry.basename
 
-          url_base = File.join('/', request.path_info)
-          link = File.join(url_base, entry)
-          filename = File.expand_path(File.join(path, entry))
-
-          if File.directory? filename
-            @folders << { :name => entry, :href => link }
+          if entry.directory?
+            @folders << { :name => entry.basename, :href => link }
           else
-            @files << { :name => unescape(entry),
-                        :size => dynamic_size(File.size(filename)),
+            @files << { :name => entry.basename,
+                        :size => dynamic_size(entry.size),
                         :href => link }
           end
         end
