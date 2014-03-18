@@ -26,7 +26,7 @@ class IndexTest < Minitest::Test
     assert_equal last_response.status, 302, "Redirect failed"
 
     follow_redirect!
-    assert_equal last_response.status, 200, "Request status failed"
+    assert_equal 200, last_response.status, "Request status failed"
     assert_equal last_response.body, CONTENT, "Body content mismatched"
   end
 end
