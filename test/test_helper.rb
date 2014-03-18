@@ -1,7 +1,7 @@
 require_relative '../lib/hstatic'
 
 require 'minitest/autorun'
-require "rack/test"
+require 'rack/test'
 
 # Migrated activesuport String#strip_heredoc patching
 class String

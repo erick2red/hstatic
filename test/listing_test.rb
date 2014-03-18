@@ -1,5 +1,6 @@
 require_relative 'test_helper'
 
+# Class for testing directory listing
 class ListTest < Minitest::Test
   include Rack::Test::Methods
 
@@ -130,15 +131,15 @@ class ListTest < Minitest::Test
     %w(/.res/style.css /.res/bootstrap.min.css /.res/jquery-1.10.2.min.js).each do |uri|
       get uri
 
-      assert_equal last_response.status, 200, "Request status failed"
-      assert last_response.body != "File not found", "Body content mismatched"
+      assert_equal last_response.status, 200, 'Request status failed'
+      assert last_response.body != 'File not found', 'Body content mismatched'
     end
   end
 
   def test_content
     get '/'
 
-    assert_equal 200, last_response.status, "Request status failed"
-    assert_equal last_response.body, TEST_LISTING, "Body content mismatched"
+    assert_equal 200, last_response.status, 'Request status failed'
+    assert_equal last_response.body, TEST_LISTING, 'Body content mismatched'
   end
 end

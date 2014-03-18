@@ -1,5 +1,6 @@
 require_relative 'test_helper'
 
+# Class for testing index.html redirection
 class IndexTest < Minitest::Test
   include Rack::Test::Methods
 
@@ -23,10 +24,10 @@ class IndexTest < Minitest::Test
   def test_index_redirect
     get '/dummy_folder'
 
-    assert_equal last_response.status, 302, "Redirect failed"
+    assert_equal last_response.status, 302, 'Redirect failed'
 
     follow_redirect!
-    assert_equal 200, last_response.status, "Request status failed"
-    assert_equal last_response.body, CONTENT, "Body content mismatched"
+    assert_equal 200, last_response.status, 'Request status failed'
+    assert_equal last_response.body, CONTENT, 'Body content mismatched'
   end
 end

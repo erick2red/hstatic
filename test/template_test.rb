@@ -1,5 +1,6 @@
 require_relative 'test_helper'
 
+# Class for testing template rendering
 class TemplateTest < Minitest::Test
   include Rack::Test::Methods
 
@@ -12,7 +13,7 @@ class TemplateTest < Minitest::Test
     </ul>
     BODY
 
-  SLIM_CONTENT = "<p>This is a haml sample</p><p>This is another paragraph sample</p><ul><li>First item</li><li>Second item</li></ul>"
+  SLIM_CONTENT = '<p>This is a haml sample</p><p>This is another paragraph sample</p><ul><li>First item</li><li>Second item</li></ul>'
 
   def app
     Dir.chdir Pathname.new(__FILE__).dirname
@@ -22,14 +23,14 @@ class TemplateTest < Minitest::Test
   def test_haml_rendering
     get '/dummy_folder/sample.haml'
 
-    assert_equal 200, last_response.status, "Request status failed"
-    assert_equal last_response.body, HAML_CONTENT, "Body content mismatched"
+    assert_equal 200, last_response.status, 'Request status failed'
+    assert_equal last_response.body, HAML_CONTENT, 'Body content mismatched'
   end
 
   def test_slim_rendering
     get '/dummy_folder/sample.slim'
 
-    assert_equal 200, last_response.status, "Request status failed"
-    assert_equal last_response.body, SLIM_CONTENT, "Body content mismatched"
+    assert_equal 200, last_response.status, 'Request status failed'
+    assert_equal last_response.body, SLIM_CONTENT, 'Body content mismatched'
   end
 end
