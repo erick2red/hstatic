@@ -22,6 +22,7 @@ It features a nice directory listing and automatic publishing of your index.html
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "rack-test"
 
   spec.add_runtime_dependency "sinatra"
   spec.add_runtime_dependency "haml"
