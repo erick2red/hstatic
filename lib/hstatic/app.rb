@@ -101,7 +101,7 @@ module Hstatic
         end
 
         # Render view
-        haml :index
+        slim :index
       else
         [404, 'File not found']
       end

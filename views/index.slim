@@ -1,0 +1,76 @@
+/ UTF-8:
+
+doctype 5
+html
+  head
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+
+    /! Bootstrap
+    link(href="/.res/bootstrap.min.css" rel="stylesheet")
+    link(href="/.res/style.css" rel="stylesheet")
+    script(src="/.res/jquery-1.10.2.min.js" type="text/javascript")
+  body
+    div.container-fluid
+      div.row
+        div.col-md-4.col-md-offset-4
+          input.form-control(type="text" placeholder="Search" autofocus)
+      div.row
+        div.col-lg-3.col-md-3.col-sm-3
+          div.panel.panel-default
+            div.panel-heading
+              | Folders
+              a.pull-right(href="#{@parent}")
+                span.glyphicon.glyphicon-arrow-up
+                | Up
+            div.list-group
+              - @folders.each do |folder|
+                a.list-group-item.folder(href="#{folder[:href]}" title="#{folder[:name]}") #{folder[:name]}
+
+        div.col-lg-9.col-md-9.col-sm-9
+          div.panel.panel-default
+            div.panel-heading Files
+            table.table.table-hover
+              thead
+                tr
+                  th #
+                  th Name
+                  th Size
+              tbody
+                - i = 1
+                - @files.each do |file|
+                  tr
+                    td= i
+                    td
+                      a(href="#{file[:href]}") #{file[:name]}
+                    td= file[:size]
+                    - i += 1
+
+    javascript:
+      $(document).ready(function () {
+        var re = new RegExp;
+        /!* filtering */
+        $('input').on('input', function () {
+          value = $(this).val();
+          $('a.list-group-item, tr:has(a)').show();
+          if (value == "") {
+            return false;
+          }
+          re.compile(value, "i");
+          $.each($('a.list-group-item'), function(i, e){
+            if (! re.test(e.innerHTML)) {
+              $(e).hide();
+            }
+          });
+          $.each($('tr:has(a)'), function(i, e){
+            if (! re.test($('a', e).html())) {
+              $(e).hide();
+            }
+          });
+        });
+        $('input').on('keyup', function (event) {
+          if (event.which == 27) {
+            $('input').val("");
+            $('input').trigger('input');
+          }
+        });
+      });
