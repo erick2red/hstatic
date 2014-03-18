@@ -50,28 +50,24 @@ module Hstatic
     end
 
     # Going around bootstrap
-    get '/.res/bootstrap.min.css' do
-      send_file BASEDIR + 'res/bootstrap.min.css'
+    %w(
+        /.res/bootstrap.min.css
+        /.res/style.css
+        /.res/jquery-1.10.2.min.js
+      ).each do |uri|
+      get uri do
+        send_file BASEDIR + uri.gsub(/^\/\./, '')
+      end
     end
 
-    get '/.res/style.css' do
-      send_file BASEDIR + 'res/style.css'
-    end
-
-    get '/.res/jquery-1.10.2.min.js' do
-      send_file BASEDIR + 'res/jquery-1.10.2.min.js'
-    end
-
-    get '/fonts/glyphicons-halflings-regular.woff' do
-      send_file BASEDIR + 'res/glyphicons-halflings-regular.woff'
-    end
-
-    get '/fonts/glyphicons-halflings-regular.ttf' do
-      send_file BASEDIR + 'res/glyphicons-halflings-regular.ttf'
-    end
-
-    get '/fonts/glyphicons-halflings-regular.svg' do
-      send_file BASEDIR + 'res/glyphicons-halflings-regular.svg'
+    %w(
+        /fonts/glyphicons-halflings-regular.woff
+        /fonts/glyphicons-halflings-regular.tff
+        /fonts/glyphicons-halflings-regular.svg
+      ).each do |uri|
+      get uri do
+        send_file BASEDIR + uri.gsub(/^\/fonts/, 'res')
+      end
     end
 
     # Catch all route

@@ -17,6 +17,7 @@ class ListTest < Minitest::Test
     %w(/.res/style.css /.res/bootstrap.min.css /.res/jquery-1.10.2.min.js).each do |uri|
       get uri
       assert_equal last_response.status, 200, "Request status failed"
+      assert last_response.body != "File not found", "Body content mismatched"
     end
   end
 
