@@ -1,10 +1,11 @@
+require 'pathname'
 require 'sinatra/base'
 require 'haml'
 require 'slim'
 
 # Main gem namespace
 module Hstatic
-  BASEDIR = File.join(File.dirname(__FILE__), '..', '..')
+  BASEDIR = Pathname.new(__FILE__).dirname.join('..', '..')
 
   # Main Sinatra Application
   #
@@ -12,7 +13,7 @@ module Hstatic
   # templates files
   class App < Sinatra::Base
     configure do
-      set :views, File.join(BASEDIR, 'views')
+      set :views, BASEDIR + 'views'
       set :environment, :development
       enable :logging
     end
@@ -50,27 +51,27 @@ module Hstatic
 
     # Going around bootstrap
     get '/.res/bootstrap.min.css' do
-      send_file(File.join(BASEDIR, 'res/bootstrap.min.css'))
+      send_file BASEDIR + 'res/bootstrap.min.css'
     end
 
     get '/.res/style.css' do
-      send_file(File.join(BASEDIR, 'res/style.css'))
+      send_file BASEDIR + 'res/style.css'
     end
 
     get '/.res/jquery-1.10.2.min.js' do
-      send_file(File.join(BASEDIR, 'res/jquery-1.10.2.min.js'))
+      send_file BASEDIR + 'res/jquery-1.10.2.min.js'
     end
 
     get '/fonts/glyphicons-halflings-regular.woff' do
-      send_file(File.join(BASEDIR, 'res/glyphicons-halflings-regular.woff'))
+      send_file BASEDIR + 'res/glyphicons-halflings-regular.woff'
     end
 
     get '/fonts/glyphicons-halflings-regular.ttf' do
-      send_file(File.join(BASEDIR, 'res/glyphicons-halflings-regular.ttf'))
+      send_file BASEDIR + 'res/glyphicons-halflings-regular.ttf'
     end
 
     get '/fonts/glyphicons-halflings-regular.svg' do
-      send_file(File.join(BASEDIR, 'res/glyphicons-halflings-regular.svg'))
+      send_file BASEDIR + 'res/glyphicons-halflings-regular.svg'
     end
 
     # Catch all route
