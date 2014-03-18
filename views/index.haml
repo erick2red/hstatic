@@ -24,7 +24,7 @@
                 Up
             %div.list-group
               - @folders.each do |folder|
-                %a.list-group-item(href="#{folder[:href]}") #{folder[:name]}
+                %a.list-group-item.folder(href="#{folder[:href]}" title="#{folder[:name]}") #{folder[:name]}
 
         %div.col-lg-9.col-md-9.col-sm-9
           %div.panel.panel-default

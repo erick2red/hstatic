@@ -6,3 +6,9 @@
 .panel-heading button {
     margin-left: 20px;
 }
+
+.folder {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
